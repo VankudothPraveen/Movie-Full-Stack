@@ -1,0 +1,87 @@
+<div class="form-wrapper">
+  <div class="form-card">
+    <!-- Header -->
+    <div class="form-header">
+      <div class="form-header-icon">{{ isEditing ? '✏️' : '🎬' }}</div>
+      <div>
+        <h2 class="form-title">{{ isEditing ? 'Edit Movie' : 'Add New Movie' }}</h2>
+        <p class="form-subtitle">{{ isEditing ? 'Update movie details below' : 'Fill in the details to add a movie' }}</p>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="alert-error">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      {{ error }}
+    </div>
+
+    <!-- Form -->
+    <form (ngSubmit)="onSubmit()" class="form-body">
+      <div class="field-group">
+        <label for="title" class="field-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Movie Title
+        </label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          [(ngModel)]="movie.title"
+          required
+          class="field-input"
+          placeholder="e.g. Inception"
+        />
+      </div>
+
+      <div class="field-group">
+        <label for="genre" class="field-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+          Genre
+        </label>
+        <input
+          type="text"
+          id="genre"
+          name="genre"
+          [(ngModel)]="movie.genre"
+          required
+          class="field-input"
+          placeholder="e.g. Sci-Fi, Action, Drama"
+        />
+      </div>
+
+      <div class="field-group">
+        <label for="releaseYear" class="field-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Release Year
+        </label>
+        <input
+          type="number"
+          id="releaseYear"
+          name="releaseYear"
+          [(ngModel)]="movie.releaseYear"
+          required
+          min="1900"
+          [max]="maxYear"
+          class="field-input"
+          placeholder="e.g. 2024"
+        />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="isLoading" class="btn-submit">
+          <span *ngIf="!isLoading">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            {{ isEditing ? 'Update Movie' : 'Create Movie' }}
+          </span>
+          <span *ngIf="isLoading" class="loading-span">
+            <span class="btn-spinner"></span>
+            Processing…
+          </span>
+        </button>
+        <button type="button" (click)="onCancel()" [disabled]="isLoading" class="btn-cancel">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
